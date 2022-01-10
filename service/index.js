@@ -7,7 +7,7 @@ class TTRequest {
                 method: method,
                 data: param,
                 success: function (res) {
-                    request(res)
+                    request(res.data)
                 },
                 fail: function (err) {
                     request(err)

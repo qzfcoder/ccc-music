@@ -1,0 +1,14 @@
+<!--components/long-video-item/index.wxml-->
+<view class="video-item">
+    <view class="img_box">
+        <image src="{{item.coverUrl}}" mode="widthFix"></image>
+    </view>
+    <view class="content_box">
+        <view class="title">
+            {{item.title}}
+        </view>
+        <view class="name">
+            {{item.creator[0].userName}}
+        </view>
+    </view>
+</view>

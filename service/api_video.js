@@ -2,7 +2,7 @@ import ttRequest from './index'
 
 export function getTopMV(offset, limit = 10) {
     return ttRequest.get('/top/mv', {
-        offset: 0,
+        offset: offset,
         limit: 10
     })
 }
@@ -18,3 +18,10 @@ export function getMVDetail(mvid) {
         mvid
     })
 }
+
+export function getRelatedVideo(id) {
+    return ttRequest.get("/related/allvideo", {
+      id
+    })
+  }
+  

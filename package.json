@@ -1,0 +1,23 @@
+{
+  "name": "music",
+  "version": "1.0.0",
+  "description": "",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/qzfcoder/ccc-music.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qzfcoder/ccc-music/issues"
+  },
+  "homepage": "https://github.com/qzfcoder/ccc-music#readme",
+  "dependencies": {
+    "@vant/weapp": "^1.10.1"
+  }
+}

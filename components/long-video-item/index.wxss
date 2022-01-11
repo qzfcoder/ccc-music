@@ -1,0 +1,37 @@
+/* components/long-video-item/index.wxss */
+.video-item {
+    display: flex;
+    margin-top: 12rpx;
+    justify-content: space-between;
+}
+
+.img_box {
+    width: 40%;
+}
+.img_box image{
+    width: 100%;
+    border-radius: 20rpx;
+}
+.content_box{
+    width: 58%; 
+}
+.content_box .title{
+    font-size: 30rpx;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -moz-box;
+    -moz-line-clamp: 2;
+    -moz-box-orient: vertical;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+    overflow: hidden;
+}
+.content_box .name {
+    margin-top: 12rpx;
+    font-size: 28rpx;
+    color: tan;
+}

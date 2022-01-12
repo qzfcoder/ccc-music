@@ -8,4 +8,7 @@
   padding: 200rpx 0;
   box-sizing: border-box;
   background-color: #fafafa
-} 
+}
+page {
+  box-sizing: border-box;
+}

@@ -1,0 +1,17 @@
+<view class="swiper_wrapper">
+    <swiper 
+      indicator-dots 
+      indicator-color="#8FA2EF" 
+      indicator-active-color="#2F54EB" 
+      class="swiper_two"
+      previous-margin="150rpx"
+      next-margin="150rpx"
+      circular
+      bindchange="handleChangeTwo">
+      <block wx:for="{{item}}" wx:key="key">
+          <swiper-item class="item">
+            <image mode="aspectFit" class="swiper_two_img {{currentIndex4 == index ? 'active' : ''}}" src="{{item.pic}}" />
+          </swiper-item>
+        </block>
+    </swiper>
+  </view>

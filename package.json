@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/qzfcoder/ccc-music#readme",
   "dependencies": {
-    "@vant/weapp": "^1.10.1"
+    "@vant/weapp": "^1.10.1",
+    "hy-event-store": "^1.2.0"
   }
 }

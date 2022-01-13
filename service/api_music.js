@@ -18,3 +18,8 @@ export function getSongMenuList(cat = "全部", limit = 6, offset = 0) {
         offset
     })
 }
+export function getSongMenuDetail(id) {
+    return ttRequest.get("/playlist/detail/dynamic", {
+      id
+    })
+  }

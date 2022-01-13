@@ -1,6 +1,6 @@
 // pages/home-music/index.js
 import {
-  rankingStore
+  rankingStore,
 } from '../../store/index'
 
 import {
@@ -45,9 +45,26 @@ Page({
     // rankingStore.onState("newRanking", this.getNewRankingHandler)
     rankingStore.onState("newRanking", this.getRankingHandler(0))
     rankingStore.onState("originRanking", this.getRankingHandler(2))
-    rankingStore.onState("upRanking", this.getRankingHandler(3))                                                                                                
+    rankingStore.onState("upRanking", this.getRankingHandler(3))
   },
-
+  handleMoreClick: function () {
+    this.navigateToDetailSongPage("hotRanking")
+  },
+  handleRankingItemClick: function (event) {
+    const rankingMap = {
+      0: "newRanking",
+      1: "hotRanking",
+      2: "originRanking",
+      3: "upRanking",
+    }
+    const idx = Number(event.currentTarget.dataset.idx)
+    this.navigateToDetailSongPage(rankingMap[idx])
+  },
+  navigateToDetailSongPage: function (rankingName) {
+    wx.navigateTo({
+      url: `/pages/detail-songs/index?ranking=${rankingName}&type=rank`,
+    })
+  },
   // 网络请求
   getPageData: function () {
     getBanner().then(res => {
@@ -63,7 +80,6 @@ Page({
       // console.log(this.state.name)
     })
     getSongMenuList().then(res => {
-      console.log(res)
       this.setData({
         hotSongMenu: res.playlists
       })
@@ -104,7 +120,6 @@ Page({
   getRankingHandler: function (idx) {
     return (res) => {
       if (Object.keys(res).length === 0) return
-      console.log("idx:", idx)
       const name = res.name
       const coverImgUrl = res.coverImgUrl
       const playCount = res.playCount
@@ -122,7 +137,6 @@ Page({
       this.setData({
         rankings: newRankings
       })
-      console.log(this.data.rankings)
     }
   },
   // getNewRankingHandler: function (res) {

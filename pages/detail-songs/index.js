@@ -1,48 +1,50 @@
-// pages/detail-search/index.js
+// pages/detail-songs/index.js
 import {
-    getSearchHot,
-    getSearchSuggest
-} from '../../service/api_search'
+    rankingStore
+} from '../../store/index'
+import {
+    getSongMenuDetail
+} from '../../service/api_music'
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        hotKeywords: [],
-        suggestSongs: [],
-        searchValue: ''
+        type: "",
+        rangking: "",
+        rankingInfo: [],
+        songInfo: []
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        this.getPageData()
-    },
-    getPageData: function () {
-        getSearchHot().then(res => {
-            this.setData({
-                hotKeywords: res.result.hots
-            })
-        })
-    },
-    handleSearchChange: function (event) {
-        const searchValue = event.detail
+        const type = options.type
         this.setData({
-            searchValue: searchValue
+            type
         })
-        if (!searchValue.length) {
-            this.setData({
-                suggestSongs: []
+        if (type === "menu") {
+            const id = options.id
+            getSongMenuDetail(id).then(res => {
+                this.setData({
+                    songInfo: res.playlist
+                })
             })
-            return
+        } else if (type === "rank") {
+            const ranking = options.ranking
+            this.setData({
+                ranking
+            })
+            rankingStore.onState(ranking, this.getRankingDataHandler)
         }
-        getSearchSuggest(searchValue).then(res => {
-            console.log(res)
-            this.setData({
-                suggestSongs: res.result.allMatch
-            })
+
+    },
+    getRankingDataHandler: function (res) {
+        console.log(res)
+        this.setData({
+            songInfo: res
         })
     },
     /**

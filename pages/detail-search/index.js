@@ -1,8 +1,14 @@
 // pages/detail-search/index.js
 import {
     getSearchHot,
-    getSearchSuggest
+    getSearchSuggest,
+    getSearchResult
 } from '../../service/api_search'
+import {
+    debounce
+} from '../../utils/debounce'
+import stringToNodes from '../../utils/string2nodes'
+const debounceGetSearchSuggest = debounce(getSearchSuggest)
 Page({
 
     /**
@@ -11,7 +17,9 @@ Page({
     data: {
         hotKeywords: [],
         suggestSongs: [],
-        searchValue: ''
+        searchValue: '',
+        suggestSongsNodes: [],
+        resultSongs: []
     },
 
     /**
@@ -38,13 +46,50 @@ Page({
             })
             return
         }
-        getSearchSuggest(searchValue).then(res => {
-            console.log(res)
+        debounceGetSearchSuggest(searchValue).then(res => {
+            const suggestSongs = res.result.allMatch
             this.setData({
                 suggestSongs: res.result.allMatch
             })
+            const suggestKeywords = suggestSongs.map(item => item.keyword)
+            const suggestSongsNodes = []
+            for (const keyword of suggestKeywords) {
+                const nodes = stringToNodes(keyword, searchValue)
+                suggestSongsNodes.push(nodes)
+            }
+            this.setData({
+                suggestSongsNodes
+            })
         })
     },
+    handleSearchAction: function () {
+        getSearchResult(this.data.searchValue).then(res => {
+            this.setData({
+                resultSongs: res.result.songs
+            })
+        })
+    },
+    // handleSuggestItemClick: function (event) {
+    //     this.setData({
+    //         searchValue: event.currentTarget.dataset.item.keyword
+    //     })
+    //     this.handleSearchAction()
+    // },
+    // handleTagItemClick: function (event) {
+    //     console.log(event)
+    //     this.setData({
+    //         searchValue: event.currentTarget.dataset.item
+    //     })
+    //     this.handleSearchAction()
+    // },
+    handleKeywordItemClick: function (event) {
+        console.log(event)
+        this.setData({
+            searchValue: event.currentTarget.dataset.item
+        })
+        this.handleSearchAction()
+    },
+
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

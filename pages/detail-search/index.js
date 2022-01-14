@@ -44,9 +44,14 @@ Page({
             this.setData({
                 suggestSongs: []
             })
+            this.setData({
+                resultSongs: []
+            })
+            debounceGetSearchSuggest.cancel()
             return
         }
         debounceGetSearchSuggest(searchValue).then(res => {
+            // if(!this.data.searchValue.length) return
             const suggestSongs = res.result.allMatch
             this.setData({
                 suggestSongs: res.result.allMatch

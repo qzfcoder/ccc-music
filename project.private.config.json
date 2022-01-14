@@ -1,43 +1,48 @@
 {
-  "setting": {},
-  "condition": {
-    "plugin": {
-      "list": []
-    },
-    "game": {
-      "list": []
-    },
-    "gamePlugin": {
-      "list": []
-    },
-    "miniprogram": {
-      "list": [
-        {
-          "name": "detail-video",
-          "pathName": "pages/detail-video/index",
-          "query": "id=14492353",
-          "scene": null
+    "setting": {},
+    "condition": {
+        "plugin": {
+            "list": []
         },
-        {
-          "name": "",
-          "pathName": "pages/swiper/index",
-          "query": "",
-          "scene": null
+        "game": {
+            "list": []
         },
-        {
-          "name": "",
-          "pathName": "pages/detail-search/index",
-          "query": "",
-          "scene": null
+        "gamePlugin": {
+            "list": []
         },
-        {
-          "name": "",
-          "pathName": "pages/detail-search/index",
-          "query": "",
-          "scene": null,
-          "launchMode": "default"
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "detail-video",
+                    "pathName": "pages/detail-video/index",
+                    "query": "id=14492353",
+                    "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "pages/swiper/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "pages/detail-search/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "pages/detail-search/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "pages/music-player/index",
+                    "query": "id=1907766514",
+                    "scene": null
+                }
+            ]
         }
-      ]
     }
-  }
 }

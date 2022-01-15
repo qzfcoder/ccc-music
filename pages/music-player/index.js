@@ -1,26 +1,47 @@
 // pages/music-player/index.js
-import {
-  getSongDetail
-} from '../../service/api_player'
+// import {
+//   getSongDetail,
+//   getSongLyric
+// } from '../../service/api_player'
 import {
   NavBarHeight
 } from '../../constants/device-const'
 import {
-  audioContext
+  audioContext,
+  playerStore
 } from '../../store/index'
+// import {
+//   parseLyric
+// } from '../../utils/parseLyric'
+
+const playModeNames = ['order', 'repeat', 'random']
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    // 网络请求的数据
     currentSong: {},
+    lyricInfos: [],
+    duration: 0,
+
+    currentTime: 0,
+    currentLyricText: '',
+    currentLyricIndex: 0,
+
     currentPage: 0,
     contentHeight: 0,
     isMusicLyric: true,
-    duration: 0,
-    currentTime: 0,
-    sliderValue: 0
+    sliderValue: 0,
+
+    isSliderChanging: false,
+
+    lyricScrollTop: 0,
+
+    playModeIndex: 0,
+    playModeName: 'order',
+    isPlay: false
   },
 
   /**
@@ -31,7 +52,8 @@ Page({
     const id = options.id
     console.log(options)
     // 通过id获取歌曲信息
-    this.getPageDate(id)
+    // this.getPageDate(id)
+    this.setupPlayStoreListener()
     // 动态计算高度
     const screenHeight = getApp().globalData.screenHeight
     const statusBarHeight = getApp().globalData.statusBarHeight
@@ -45,37 +67,56 @@ Page({
     this.setData({
       contentHeight: contentHeight
     })
+  },
 
-    // 4.使用audioContext播放歌曲
-    audioContext.stop()
-    audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
-    audioContext.autoplay = true
-    audioContext.stop()
-    audioContext.onCanplay(() => {
-      // audioContext.play()
-      // audioContext.stop()
-    })
-
-    audioContext.onTimeUpdate(() => {
-      const currentTime = audioContext.currentTime * 1000
-      this.setData({
-        currentTime
+  setupPlayStoreListener: function () {
+    playerStore.onStates(["currentSong", "lyricInfos", "duration"], ({
+      currentSong,
+      lyricInfos,
+      duration
+    }) => {
+      if (currentSong) this.setData({
+        currentSong
+      })
+      if (lyricInfos) this.setData({
+        lyricInfos
+      })
+      if (duration) this.setData({
+        duration
       })
     })
+    playerStore.onStates(["currentTime", "currentLyricIndex", "currentLyricText"], ({
+      currentTime,
+      currentLyricIndex,
+      currentLyricText
+    }) => {
 
-    // 5.audioContext的事件监听
-    // this.setupAudioContextListener()
-  },
-  // 网络请求
-  getPageDate: function (id) {
-    getSongDetail(id).then(res => {
-      console.log(res)
+      if (currentTime && !this.data.isSliderChanging) this.setData({
+        currentTime,
+        sliderValue: currentTime / this.data.duration * 100
+      })
+      if (currentLyricIndex) this.setData({
+        currentLyricIndex,
+        lyricScrollTop: 35 * currentLyricIndex
+      })
+      if (currentLyricText) this.setData({
+        currentLyricText
+      })
+    })
+    playerStore.onStates(["playModeIndex", "isPlay"], ({
+      index,
+      isPlay
+    }) => {
       this.setData({
-        currentSong: res.songs[0],
-        duration: res.songs[0].dt
+        playModeIndex: index,
+        playModeName: playModeNames[index],
+      })
+      this.setData({
+        isPlay
       })
     })
   },
+
   handleSwiperChange: function (event) {
     this.setData({
       currentPage: event.detail.current
@@ -86,9 +127,34 @@ Page({
     const rate = value / 100
     this.setData({
       currentTime: this.data.duration * rate,
+      isSliderChanging: false,
       // sliderValue: value
     })
     audioContext.pause()
     audioContext.seek(this.data.currentTime / 1000)
+  },
+  handleSliderChanging: function (event) {
+    const value = event.detail.value
+    const currentTime = this.data.duration * value / 100
+    this.setData({
+      isSliderChanging: true,
+      currentTime
+    })
+  },
+  // 返回时间
+  handelBackClick: function () {
+    wx.navigateBack()
+  },
+  handleModeBtnClick: function () {
+    let playModeIndex = this.data.playModeIndex + 1
+    if (playModeIndex === 3) {
+      playModeIndex = 0
+    }
+    console.log('eeeeee', playModeIndex)
+    playerStore.setState('playModeIndex', playModeIndex)
+  },
+  handlePlayBtnClick: function () {
+    // playerStore.setState('isPlay', !this.data.isPlay)
+    playerStore.dispatch("changeMusicPlayStatus")
   }
 })

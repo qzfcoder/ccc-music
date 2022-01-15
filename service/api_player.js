@@ -5,3 +5,8 @@ export function getSongDetail(ids) {
         ids
     })
 }
+export function getSongLyric(id) {
+    return ttRequest.get('/lyric', {
+        id
+    })
+}

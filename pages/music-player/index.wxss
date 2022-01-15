@@ -84,6 +84,34 @@ page {
     flex: 1;
 }
 
+.lyric-list {
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.lyric-list .item {
+    height: 36px;
+    line-height: 36px;
+    font-size: 28rpx;
+    text-align: center;
+    color: #989898;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lyric-list .active {
+    color: #26ce8a;
+    font-size: 36rpx;
+}
+
 /* 进度 */
 .progress {
     margin: 10rpx 0;

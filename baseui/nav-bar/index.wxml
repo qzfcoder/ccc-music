@@ -2,7 +2,7 @@
 <view class="nav">
     <view class="status" style="height: {{statusBarHeight}}px;"></view>
     <view class="nav-bar" style="height: {{NavBarHeight}}px;">
-        <view class="left">
+        <view class="left" bindtap="handelLeftClick">
             <view class="left-slot">
                 <slot name="left"></slot>
             </view>

@@ -54,6 +54,9 @@ Page({
     // 通过id获取歌曲信息
     // this.getPageDate(id)
     this.setupPlayStoreListener()
+    playerStore.dispatch("playMusicWithSongIdAction", {
+      id
+    })
     // 动态计算高度
     const screenHeight = getApp().globalData.screenHeight
     const statusBarHeight = getApp().globalData.statusBarHeight
@@ -104,16 +107,22 @@ Page({
       })
     })
     playerStore.onStates(["playModeIndex", "isPlay"], ({
-      index,
+      playModeIndex,
       isPlay
     }) => {
-      this.setData({
-        playModeIndex: index,
-        playModeName: playModeNames[index],
-      })
-      this.setData({
-        isPlay
-      })
+      if (playModeIndex !== undefined) {
+        this.setData({ 
+          playModeIndex, 
+          playModeName: playModeNames[playModeIndex] 
+        })
+      }
+
+      if (isPlay !== undefined) {
+        this.setData({ 
+          isPlay,
+          playingName: isPlay ? "pause": "resume" 
+        })
+      }
     })
   },
 
@@ -155,6 +164,13 @@ Page({
   },
   handlePlayBtnClick: function () {
     // playerStore.setState('isPlay', !this.data.isPlay)
-    playerStore.dispatch("changeMusicPlayStatus")
-  }
+    console.log(!this.data.isPlay)
+    playerStore.dispatch("changeMusicPlayStatus", !this.data.isPlay)
+  },
+  handlePrevBtnClick: function () {
+    playerStore.dispatch("changeNewMusicAction", false)
+  },
+  handleNextBtnClick: function () {
+    playerStore.dispatch("changeNewMusicAction")
+  },
 })

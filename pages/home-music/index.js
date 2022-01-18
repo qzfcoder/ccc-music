@@ -1,5 +1,6 @@
 // pages/home-music/index.js
 import {
+  playerStore,
   rankingStore,
 } from '../../store/index'
 
@@ -25,6 +26,8 @@ Page({
       2: {},
       3: {}
     },
+    asd:{},
+    currentSong: {}
   },
 
   onLoad: function (options) {
@@ -33,22 +36,47 @@ Page({
 
     // // 发起共享数据的请求
     rankingStore.dispatch("getRankingDataAction")
-
+    this.setupPlayerStoreListener()
     // 从store获取共享的数据
+    // rankingStore.onState("hotRanking", (res) => {
+    //   if (!res.tracks) return
+    //   const recommendSongs = res.tracks.slice(0, 6)
+    //   this.setData({
+    //     recommendSongs
+    //   })
+    // })
+    // // rankingStore.onState("newRanking", this.getNewRankingHandler)
+    // rankingStore.onState("newRanking", this.getRankingHandler(0))
+    // rankingStore.onState("originRanking", this.getRankingHandler(2))
+    // rankingStore.onState("upRanking", this.getRankingHandler(3))
+  },
+  setupPlayerStoreListener: function() {
+    // 1.排行榜监听
     rankingStore.onState("hotRanking", (res) => {
       if (!res.tracks) return
       const recommendSongs = res.tracks.slice(0, 6)
-      this.setData({
-        recommendSongs
-      })
+      this.setData({ recommendSongs })
     })
-    // rankingStore.onState("newRanking", this.getNewRankingHandler)
     rankingStore.onState("newRanking", this.getRankingHandler(0))
     rankingStore.onState("originRanking", this.getRankingHandler(2))
     rankingStore.onState("upRanking", this.getRankingHandler(3))
+
+    // 2.播放器监听
+    playerStore.onStates(["currentSong", "isPlay"], ({currentSong, isPlay}) => {
+      if (currentSong) this.setData({ currentSong })
+      if (isPlay !== undefined) {
+        this.setData({ 
+          isPlay, 
+          playAnimState: isPlay ? "running": "paused" 
+        })
+      }
+    })
   },
   handleMoreClick: function () {
     this.navigateToDetailSongPage("hotRanking")
+  },
+  handlePlayBtnClick: function() {
+    playerStore.dispatch("changeMusicPlayStatus", !this.data.isPlay)
   },
   handleRankingItemClick: function (event) {
     const rankingMap = {
@@ -111,7 +139,12 @@ Page({
       })
     })
   },
-
+  handleSongItemClick: function (event) {
+    const index = event.currentTarget.dataset.index
+    console.log(this.data.recommendSongs, index)
+    playerStore.setState("playListSongs", this.data.recommendSongs)
+    playerStore.setState("playListIndex", index)
+  },
   onUnload: function () {
     // rankingStore.offState("newRanking", this.getNewRankingHandler)
   },

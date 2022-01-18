@@ -1,5 +1,6 @@
 // pages/detail-songs/index.js
 import {
+    playerStore,
     rankingStore
 } from '../../store/index'
 import {
@@ -47,6 +48,12 @@ Page({
             songInfo: res
         })
     },
+    handleSongItemClick: function (event) {
+        const index = event.currentTarget.dataset.index
+        console.log(this.data.songInfo, index)
+        playerStore.setState("playListSongs", this.data.songInfo.tracks)
+        playerStore.setState("playListIndex", index)
+      },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

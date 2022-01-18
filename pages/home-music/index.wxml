@@ -1,7 +1,6 @@
 <!--pages/home-music/index.wxml-->
 <!-- 搜索框 -->
 <van-search disabled background="#fafafa" shape="round" placeholder="搜索您喜欢的歌曲" bind:click-input="handleSearchClick" />
-
 <!-- 轮播图 -->
 <home-swiper item="{{banners}}"></home-swiper>
 <!-- <swiper class="swiper"
@@ -25,7 +24,7 @@
   <area-header title="推荐歌曲" bind:click="handleMoreClick"></area-header>
   <view class="song-list">
     <block wx:for="{{recommendSongs}}" wx:key="id">
-      <song-item-v1 item="{{item}}"></song-item-v1>
+      <song-item-v1 item="{{item}}" bindtap="handleSongItemClick" data-index="{{index}}"></song-item-v1>
     </block>
   </view>
 </view>
@@ -41,5 +40,17 @@
     <block wx:for="{{rankings}}" wx:key="name">
       <ranking-area-item item="{{item}}" bindtap="handleRankingItemClick" data-idx="{{index}}"></ranking-area-item>
     </block>
+  </view>
+</view>
+
+<!-- 播放工具栏 -->
+<view class="play-bar" wx:if="{{currentSong.name}}">
+  <view class="left">
+    <image class="album album-anim" style="animation-play-state: {{playAnimState}};" mode="aspectFill" src="{{currentSong.al.picUrl}}"></image>
+    <view class="name">{{currentSong.name}}</view>
+  </view>
+  <view class="right">
+    <image class="icon play" src="/assets/images/music/{{ isPlay ? 'pause': 'play' }}_icon.png" bindtap="handlePlayBtnClick"></image>
+    <image class="icon playlist" src="/assets/images/music/playlist_icon.png"></image>
   </view>
 </view>

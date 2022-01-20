@@ -44,13 +44,14 @@
 </view>
 
 <!-- 播放工具栏 -->
-<view class="play-bar" wx:if="{{currentSong.name}}">
+<view class="play-bar-placeholder" wx:if="{{currentSong.name}}"></view>
+<view class="play-bar" wx:if="{{currentSong.name}}" bindtap="handlePlayBarClick">
   <view class="left">
     <image class="album album-anim" style="animation-play-state: {{playAnimState}};" mode="aspectFill" src="{{currentSong.al.picUrl}}"></image>
     <view class="name">{{currentSong.name}}</view>
   </view>
   <view class="right">
-    <image class="icon play" src="/assets/images/music/{{ isPlay ? 'pause': 'play' }}_icon.png" bindtap="handlePlayBtnClick"></image>
+    <image class="icon play" src="/assets/images/music/{{ isPlay ? 'pause': 'play' }}_icon.png" catchtap="handlePlayBtnClick"></image>
     <image class="icon playlist" src="/assets/images/music/playlist_icon.png"></image>
   </view>
 </view>

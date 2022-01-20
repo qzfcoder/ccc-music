@@ -78,6 +78,11 @@ Page({
   handlePlayBtnClick: function() {
     playerStore.dispatch("changeMusicPlayStatus", !this.data.isPlay)
   },
+  handlePlayBarClick: function() {
+   wx.navigateTo({
+     url: '/pages/music-player/index?id='+this.data.currentSong.id,
+   })
+  },
   handleRankingItemClick: function (event) {
     const rankingMap = {
       0: "newRanking",

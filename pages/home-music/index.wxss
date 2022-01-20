@@ -82,3 +82,6 @@ page {
 .album-anim {
   animation: albumRotate 16s linear infinite;
 }
+.play-bar-placeholder{
+  height: 44px;
+}

@@ -42,7 +42,7 @@
     "ignoreUploadUnusedFiles": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.18.1",
+  "libVersion": "2.18.0",
   "appid": "wx814d3889c0c0f063",
   "projectname": "music",
   "debugOptions": {

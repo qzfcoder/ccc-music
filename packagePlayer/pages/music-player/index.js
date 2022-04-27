@@ -5,11 +5,11 @@
 // } from '../../service/api_player'
 import {
   NavBarHeight
-} from '../../constants/device-const'
+} from '../../../constants/device-const'
 import {
   audioContext,
   playerStore
-} from '../../store/index'
+} from '../../../store/index'
 // import {
 //   parseLyric
 // } from '../../utils/parseLyric'

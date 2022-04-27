@@ -27,7 +27,7 @@ Component({
         handleSongItemClick: function () {
             const id = this.properties.item.id
             wx.navigateTo({
-                url: '/pages/music-player/index?id=' + id,
+                url: '/pagePlayer/pages/music-player/index?id=' + id,
             })
             playerStore.dispatch("playMusicWithSongIdAction", {
                 id

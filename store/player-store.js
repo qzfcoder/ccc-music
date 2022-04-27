@@ -6,13 +6,15 @@ import {
   parseLyric
 } from '../utils/parseLyric'
 
-const audioContext = wx.createInnerAudioContext()
+// const audioContext = wx.createInnerAudioContext()
+const audioContext = wx.getBackgroundAudioManager()
 import {
   HYEventStore
 } from 'hy-event-store'
 const playerStore = new HYEventStore({
   state: {
     id: 0,
+    isStoping: false,
     // 网络请求的数据
     currentSong: {},
     lyricInfos: [],
@@ -53,6 +55,7 @@ const playerStore = new HYEventStore({
       getSongDetail(id).then(res => {
         ctx.currentSong = res.songs[0]
         ctx.duration = res.songs[0].dt
+        audioContext.title = res.songs[0].name
       })
       // 请求歌词信息
       getSongLyric(id).then(res => {
@@ -63,6 +66,7 @@ const playerStore = new HYEventStore({
       // 2、播放歌曲
       audioContext.stop()
       audioContext.src = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+      audioContext.title = id
       audioContext.autoplay = true
 
       this.dispatch("setupAudioContextListenerAction")
@@ -97,18 +101,30 @@ const playerStore = new HYEventStore({
           }
         }
       })
-      audioContext.onEnded(()=>{
+      audioContext.onPlay(() => {
+        ctx.isPlay = true
+      })
+      audioContext.onPause(() => {
+        ctx.isPlay = false
+      })
+      audioContext.onEnded(() => {
         this.dispatch("changeNewMusicAction")
+      })
+      audioContext.onStop(() => {
+        ctx.isPlay = false
+        ctx.isStoping = true
       })
     },
     changeMusicPlayStatus(ctx, isPlaying = true) {
       console.log(ctx.playModeIndex)
       ctx.isPlay = isPlaying
-      if (ctx.isPlay) {
-        audioContext.play()
-      } else {
-        audioContext.pause()
+      if (ctx.isPlay &&ctx.isStoping) {
+        audioContext.src = `https://music.163.com/song/media/outer/url?id=${ctx.id}.mp3`
+        audioContext.title = ctx.currentSong.name
+        audioContext.seek(ctx.currentTime)
+        ctx.isStoping = false
       }
+      ctx.isPlay ? audioContext.play() : audioContext.pause()
     },
     changeMusicAction(ctx) {
       console.log("切换歌曲")

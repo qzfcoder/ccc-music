@@ -127,7 +127,7 @@ Page({
   // 事件处理
   handleSearchClick: function () {
     wx.navigateTo({
-      url: '/pages/detail-search/index',
+      url: '/packageDetail/pages/detail-search/index',
     })
   },
   handleToSwiper: function () {

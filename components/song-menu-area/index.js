@@ -30,7 +30,7 @@ Component({
             const item = event.currentTarget.dataset.item
             console.log('点击了',item)
             wx.navigateTo({
-                url: `/pages/detail-songs/index?id=${item.id}&type=menu`,
+                url: `/pageDetail/pages/detail-songs/index?id=${item.id}&type=menu`,
             })
         }
     }

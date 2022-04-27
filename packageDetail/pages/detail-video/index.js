@@ -2,7 +2,7 @@ import {
     getMVDetail,
     getMVUrl,
     getRelatedVideo
-} from "../../service/api_video"
+} from "../../../service/api_video"
 
 // pages/detail-view/index.js
 Page({
